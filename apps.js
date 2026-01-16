@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-app.post('/cadastro_produtos', (req, res) => {
+app.post('/cadastro_produtos', (req, res) => {      // Rota para adicionar 'CREAT'
     console.log("Dados recebidos do Postman:", req.body);
 
     Produto.create({
@@ -21,13 +21,17 @@ app.post('/cadastro_produtos', (req, res) => {
     })
 });
 
-app.get('/consulta', ( req, res ) => {
+app.get('/consulta', ( req, res ) => {      // Rota de consultas 'READ'
     Produto.findAll().then( function(produtos) {
         res.send( {produtos: produtos} )
     }).catch( (erro) => {
         res.send('ERRO: ' + erro)
     })  // findAll == select * from produtos
-})
+});
+
+app.put('/atualizar', (req, res) => {       // Rota para atualizar 'UPDATE'
+    Produto.update()
+});
 
 
 app.listen(8000, () => { console.log('Servidor Rodando na porta 8000!') });

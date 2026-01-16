@@ -29,8 +29,15 @@ app.get('/consulta', ( req, res ) => {      // Rota de consultas 'READ'
     })  // findAll == select * from produtos
 });
 
-app.put('/atualizar', (req, res) => {       // Rota para atualizar 'UPDATE'
-    Produto.update()
+app.put('/atualizar/:id', (req, res) => {       // Rota para atualizar 'UPDATE'
+    Produto.update(
+        {
+            'nome': req.body.nome,
+            'preco': req.body.preco,
+            'descricao': req.body.descricao
+        },
+            {where: {"id": req.params.id}}
+    ).then().catch()
 });
 
 

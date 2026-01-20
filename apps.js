@@ -7,7 +7,7 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-app.post('/cadastro_produtos', (req, res) => {      // Rota para adicionar 'CREAT'
+app.post('/cadastro_produtos', (req, res) => {      // Rota para adicionar 'CREATE'
     console.log("Dados recebidos do Postman:", req.body);
 
     Produto.create({
@@ -19,6 +19,7 @@ app.post('/cadastro_produtos', (req, res) => {      // Rota para adicionar 'CREA
     }).catch( function(erro) {
         res.send('Erro ao cadastrar produtos' + erro)
     })
+
 });
 
 app.get('/consulta', ( req, res ) => {      // Rota de consultas 'READ'
@@ -29,15 +30,31 @@ app.get('/consulta', ( req, res ) => {      // Rota de consultas 'READ'
     })  // findAll == select * from produtos
 });
 
-app.put('/atualizar/:id', (req, res) => {       // Rota para atualizar 'UPDATE'
+app.patch('/atualizar/:id', (req, res) => {       // Rota para atualizar 'UPDATE'
     Produto.update(
         {
             'nome': req.body.nome,
             'preco': req.body.preco,
             'descricao': req.body.descricao
         },
-            {where: {"id": req.params.id}}
-    ).then().catch()
+
+        {where: {"id": Number(req.params.id)}}
+    ).then( function() {
+        res.send('Sucesso ao atulizar os dados!')
+    }).catch( function(erro) {
+        res.send('Erro ao atualizar os dados:' + erro)
+    })
+});
+
+app.delete('/deletar/:id', (req, res) => {      //Rotas para exclusão 'DELETE'
+    Produto.destroy(
+        {where: {"id": req.params.id}}
+
+    ).then( () => { 
+        res.send('Produto excluído')
+    }).catch( (erro) => { 
+        res.send('ERRO:' + erro) 
+    })
 });
 
 

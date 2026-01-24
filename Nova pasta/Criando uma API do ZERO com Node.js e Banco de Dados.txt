@@ -1,0 +1,49 @@
+
+
+ Criando uma API do zero utilizando Node.js e integrada com um banco de dados. Objetivo, criar lista de usuários ou produtos.
+-------------------------------------------------------
+
+
+//    	PRIMEIRO PASSO, PREPARAÇÃO DO PROJETO	
+
+ Instalação do npm init -y, do node para o pacote {}package.json, logo depois, a instalação da biblioteca express (npm i express) e o arquivo > node_modules.
+----------------------------
+
+
+//   	SEGUNDO PASSO, MÉTODO DE REQUISIÇÕES
+
+ Requisições HTTP:
+
+ - GET:     Ler ou pegar a requisição.
+ - POST:    Criar requisição.
+ - PUT:     Editar requisição completa.
+ - PATCH:   Edição parcial de requisição.
+ - DEL:     Deletar requisição.
+
+
+ Envio de requisições para HTTP:
+
+ - QUERY PARAMS (GET): Consultas. 
+EX..:sevidor.com/usuarios?estado=ceara&cidade=fortaleza
+
+ - ROUTE PARAMS (GET/ PUT / DELETE): Ler, editar ou deletar algo específico. 
+EX..: servidor.com/usuarios/10
+
+ - BODY PARAMS (POST e PUT): Criar ou editar pelo corpo da requisição em json.
+EX..: 
+{ 
+   "nome": "Felipe", "id": 10
+ }
+----------------------------
+
+
+//	HTTP STATUS DE RESPOSTAS
+
+2XX -> Sucesso. 
+ *Exemplos: 201, 204, 206, são codigos de sucesso!
+
+4XX -> Erro, lado do cliente.
+ * Exemplos: 400, 404, são erros do front end!
+
+5XX -> Erro, lado do servidor.
+ * Exemplos: 500, 503, são erros do back end!

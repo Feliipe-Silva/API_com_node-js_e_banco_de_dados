@@ -1,0 +1,56 @@
+
+
+1. Instalação
+ No seu terminal, você só precisa do driver:
+
+- npm install mysql2
+
+
+2. Criando a Conexão (db_puro.js).
+ Nesta maneira, usamos o conceito de Pool (Piscina). É melhor que uma conexão única porque ela permite que várias consultas aconteçam ao mesmo tempo sem travar o app.
+
+import mysql from 'mysql2/promise'; // Usamos /promise para usar o then/catch ou async/await
+
+--EXEMPLO:
+const conexao = mysql.createPool({
+    host: 'localhost',
+    user: 'root',
+    password: 'sua_senha',
+    database: 'cadastro_usuarios'
+});
+
+export default conexao;
+
+
+3. Usando a Conexão (O "CRUD" manual)
+ Agora, veja como você usaria isso no seu arquivo principal. Note que aqui você precisa saber falar a língua do Banco de Dados (SQL).
+
+--EXEMPLO:
+import db from './db_puro.js';
+
+// Função para salvar um funcionário
+async function salvarFuncionario(nome, cargo) {
+    try {
+        // O comando SQL puro
+        const sql = "INSERT INTO funcionarios (nome, cargo) VALUES (?, ?)";
+        
+        // Executando e passando os valores nos '?' para segurança
+        const [resultado] = await db.execute(sql, [nome, cargo]);
+        
+        console.log("Funcionário salvo com sucesso! ID:", resultado.insertId);
+    } catch (erro) {
+        console.log("Erro ao salvar no MySQL puro: " + erro.message);
+    }
+}
+
+salvarFuncionario("Felipe", "Desenvolvedor");
+---------------------------
+
+
+O que mudou aqui em relação ao Sequelize?
+
+1. SQL Exposto: Você escreveu INSERT INTO.... No Sequelize, você usaria Funcionario.create().
+
+2. Segurança Manual: Você usou os pontos de interrogação (?, ?) para evitar ataques. No Sequelize, ele faz isso sozinho.
+
+3. Resultado Cru: O resultado que volta do MySQL2 é um objeto simples com informações técnicas (quantas linhas mudaram, qual o ID gerado), enquanto o Sequelize retornaria um "Objeto Funcionário" prontinho para usar.

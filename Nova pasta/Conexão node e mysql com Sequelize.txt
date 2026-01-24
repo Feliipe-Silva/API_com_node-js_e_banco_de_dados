@@ -1,0 +1,69 @@
+
+//	Conectando Node.js ao MySQL com Sequelize
+------------------------------------------------------
+
+
+1. Instalação Necessária.
+ No terminal, dentro da pasta do projeto:
+
+- npm install sequelize mysql2
+
+
+2. Configuração da Conexão (db.js).
+ Este arquivo é o "coração". Ele guarda o endereço, o usuário e a senha do banco.
+
+import { Sequelize } from 'sequelize';
+
+// 1. Criar a instância (Nome do Banco, Usuário, Senha)
+const sequelize = new Sequelize('nome_do_banco', 'root', 'sua_senha', {
+    host: 'localhost',
+    dialect: 'mysql' // Diz ao Sequelize para usar o driver mysql2
+});
+
+// 2. Testar a conexão (Opcional, mas recomendado)
+sequelize.authenticate()
+    .then(() => console.log("Conectado com sucesso!"))
+    .catch(erro => console.log("Falha na conexão: " + erro));
+
+export default sequelize;
+
+
+3. Criando a "Planta" da Tabela (models/Usuario.js).
+ O Sequelize usa objetos para criar tabelas.
+
+import { DataTypes } from 'sequelize';
+import sequelize from '../db.js';
+
+const Usuario = sequelize.define('Usuario', {
+    nome: { type: DataTypes.STRING, allowNull: false },
+    email: { type: DataTypes.STRING, unique: true }
+});
+
+export default Usuario;
+
+
+4. Sincronização (A Mágica).
+ No seu arquivo principal (index.js), você avisa o Sequelize para criar as tabelas no MySQL:
+
+import sequelize from './db.js';
+
+// Sincroniza o JS com o Banco de Dados
+sequelize.sync({ force: false }) 
+    .then(() => console.log("Tabelas prontas!"));
+-----------------------
+
+
+Dicas para fixar:
+1. Sequelize é o gerente (inteligente).
+
+2. MySQL2 é o operário (faz a conexão física).
+
+3. .authenticate() só testa se a senha está certa.
+
+4. .sync() é o que realmente cria as tabelas no banco.
+
+ Sempre que você esquecer, pode me pedir esse resumo ou olhar esse roteiro. Qual parte você quer praticar agora? Se quiser, podemos tentar criar o seu primeiro CRUD (cadastrar um usuário de verdade no banco)!
+-------------------------------------------------------
+
+
+Sem o Sequelize, você é quem escreve o SQL puro. O Node.js usa o mysql2 para abrir o canal de comunicação.

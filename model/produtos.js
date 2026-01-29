@@ -20,7 +20,7 @@ const Produto = sequelize.define("produtos", {
 Produto.sync({ force: false })
 
     .then(() => {
-        console.log('Servidor funcionado!');
+        console.log('Servidor Rodando na porta 8000!');
     })
     .catch((erro) => {
         console.log('Erro no processo de sincronização/criação: ' + erro);

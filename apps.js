@@ -30,6 +30,16 @@ app.get('/consulta', ( req, res ) => {      // Rota de consultas 'READ'
     })  // findAll == select * from produtos
 });
 
+app.get('/:nome', (req, res) => {   // Rota de consultas por "nome"
+
+    Produto.findAll( {where: {"nome": req.params.nome }} ).then(function(produto){
+        res.send(produto)
+    }).catch(function(erro) {
+        res.send('Erro ao consultar produtos: ' + erro)
+    })
+});
+
+
 app.patch('/atualizar/:id', (req, res) => {       // Rota para atualizar 'UPDATE'
     Produto.update(
         {
@@ -58,4 +68,4 @@ app.delete('/deletar/:id', (req, res) => {      //Rotas para exclusão 'DELETE'
 });
 
 
-app.listen(8000, () => { console.log('Servidor Rodando na porta 8000!') });
+app.listen(8000 );
